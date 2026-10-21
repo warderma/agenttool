@@ -1,0 +1,19 @@
+{
+  "description": "Run governance checks after Codex file edits in this playbook.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "apply_patch|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pwsh -NoProfile -ExecutionPolicy Bypass -Command \"$root = git rev-parse --show-toplevel; & (Join-Path $root '.codex/hooks/check-governance.ps1') -HookMode\"",
+            "commandWindows": "powershell -NoProfile -ExecutionPolicy Bypass -Command \"$root = git rev-parse --show-toplevel; & (Join-Path $root '.codex/hooks/check-governance.ps1') -HookMode\"",
+            "timeout": 20,
+            "statusMessage": "Checking agent-playbook governance"
+          }
+        ]
+      }
+    ]
+  }
+}
